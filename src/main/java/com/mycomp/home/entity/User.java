@@ -10,7 +10,6 @@ public class User {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private String name;
-    private Integer age;
     private String phone;
     @TableField("room_id")
     private Integer roomId;

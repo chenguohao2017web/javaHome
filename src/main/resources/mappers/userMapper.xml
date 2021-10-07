@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycomp.home.mapper.UserMapper">
+    <select id="getUserWithRoomList" parameterType="java.util.Map"  resultType="com.mycomp.home.entity.UserInfo">
+        select u.*, r.room_num, r.price
+        from user u, room r
+        where u.room_id = r.id
+        limit #{page}, #{size}
+    </select>
+</mapper>
