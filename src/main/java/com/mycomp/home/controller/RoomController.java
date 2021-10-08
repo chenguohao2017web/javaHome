@@ -9,10 +9,9 @@ import com.mycomp.home.entity.User;
 import com.mycomp.home.mapper.RoomMapper;
 import com.mycomp.home.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/room")
@@ -23,6 +22,12 @@ public class RoomController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @GetMapping("select")
+    public Result selectRoom() {
+        List<Room> roomList = roomMapper.selectList(null);
+        return Result.ok(roomList);
+    }
 
     @PostMapping("/add")
     public Result add(@RequestBody JSONObject jsonObject) {

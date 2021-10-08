@@ -6,10 +6,7 @@ import com.mycomp.home.entity.User;
 import com.mycomp.home.entity.UserInfo;
 import com.mycomp.home.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,4 +32,23 @@ public class UserController {
         map.put("total", total);
         return Result.ok(map);
     }
+
+    @PostMapping("/add")
+    public Result addUser(@RequestBody User user) {
+        userMapper.insert(user);
+        return Result.ok();
+    }
+
+    @PostMapping("/update")
+    public Result updateUser(@RequestBody User user) {
+        userMapper.updateById(user);
+        return Result.ok();
+    }
+
+    @PostMapping("/del")
+    public Result delUser(@RequestBody User user){
+        userMapper.deleteById(user.getId());
+        return Result.ok();
+    }
+
 }
