@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycomp.home.mapper.CountMapper">
+    <select id="getCountListWithUserAndRoom" parameterType="java.util.Map" resultMap="baseMap" >
+        select c.*, u.*, r.*
+        from `count` as c,
+        `user` as u,
+        `room` as r
+        where c.user_id = u.id
+        and c.room_id = r.id
+        <if test="roomNum != null and roomNum != ''">
+            and r.room_num like concat('%',#{roomNum},'%')
+        </if>
+        <if test="year != null and year != ''">
+            and year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            and month = #{month}
+        </if>
+        limit #{page}, #{size}
+    </select>
+
+    <resultMap id="baseMap" type="com.mycomp.home.entity.Count">
+        <id column="id" property="id" javaType="int"></id>
+        <result column="year" property="year" javaType="int"></result>
+        <result column="month" property="month" javaType="int"></result>
+        <result column="water" property="water" javaType="int"></result>
+        <result column="dian" property="dian" javaType="int"></result>
+        <result column="user_id" property="userId" javaType="int"></result>
+        <result column="room_id" property="roomId" javaType="int"></result>
+        <result column="price" property="price" javaType="double"></result>
+
+        <association property="user" javaType="com.mycomp.home.entity.User">
+            <result column="name" property="name" javaType="String"></result>
+            <result column="phone" property="phone" javaType="String"></result>
+        </association>
+
+        <association property="room" javaType="com.mycomp.home.entity.Room">
+            <result column="room_num" property="roomNum" javaType="string"></result>
+            <result column="price" property="price" javaType="int"></result>
+        </association>
+    </resultMap>
+
+</mapper>
