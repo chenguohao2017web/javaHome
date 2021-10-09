@@ -8,6 +8,9 @@ spring:
 mybatis-plus:
   mapper-locations: mappers/*.xml
 
+logging:
+  level:
+    com.mycomp.home.mapper: debug
 
 #  create table `count`(
 #  `id` int primary key auto_increment,
