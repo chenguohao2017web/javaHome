@@ -3,7 +3,19 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/home?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&serverTimezone=GMT%2B8
     username: root
-    password: root
+    password: Chen123!
 
 mybatis-plus:
   mapper-locations: mappers/*.xml
+
+
+#  create table `count`(
+#  `id` int primary key auto_increment,
+#  `year` int(15) not null,
+#  `month` int(15) not null,
+#  `water` int(20) not null,
+#  `dian` int(20) not null,
+#  `price` decimal,
+#  `user_id` int(10) not null,
+#  `room_id` int(10) not null
+#  )ENGINE=InnoDB default charset=utf8;

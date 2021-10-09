@@ -21,8 +21,22 @@ public class CountController {
 
     @PostMapping("/select")
     public Result select(@RequestBody Map<String, Object> map) {
+
+        //分页查询数
+        String page = map.get("page").toString();
+        String size = map.get("size").toString();
+        map.put("page", (Integer.valueOf(page) - 1) * Integer.valueOf(size));
         List<Count> countListWithUserAndRoom = countMapper.getCountListWithUserAndRoom(map);
-        return Result.ok(countListWithUserAndRoom);
+
+        //查询总数
+        map.put("page",0);
+        map.put("size", 99999);
+        List<Count> countListWithUserAndRoom1 = countMapper.getCountListWithUserAndRoom(map);
+        int total = countListWithUserAndRoom1.size();
+        HashMap<String, Object> stringObjectHashMap = new HashMap<>();
+        stringObjectHashMap.put("list", countListWithUserAndRoom);
+        stringObjectHashMap.put("total", total);
+        return Result.ok(stringObjectHashMap);
     }
 
     @PostMapping("/add")
