@@ -16,7 +16,28 @@ const routes = [
   {
     path: '/user/select',
     component: () => import(/* webpackChunkName: "about" */ '../views/User/select')
+  },
+  {
+    path: '/user/edit',
+    component: () => import(/* webpackChunkName: "about" */ '../views/User/edit')
+  },
+  {
+    path: '/room/select',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Room/select')
+  },
+  {
+    path: '/room/edit',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Room/edit')
+  },
+  {
+    path: '/count/select',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Count/select')
+  },
+  {
+    path: "/count/insert",
+    component: () => import(/* webpackChunkName: "about" */ '../views/Count/insert')
   }
+
 ]
 
 const router = new VueRouter({

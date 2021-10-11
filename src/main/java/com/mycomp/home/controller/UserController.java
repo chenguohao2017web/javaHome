@@ -33,6 +33,12 @@ public class UserController {
         return Result.ok(map);
     }
 
+    @PostMapping("/selectUserById")
+    public Result getUserById(@RequestBody User user) {
+        User user1 = userMapper.selectById(user.getId());
+        return Result.ok(user1);
+    }
+
     @PostMapping("/add")
     public Result addUser(@RequestBody User user) {
         userMapper.insert(user);

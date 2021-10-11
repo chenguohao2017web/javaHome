@@ -18,17 +18,25 @@
               </template>
               <el-menu-item-group>
                 <el-menu-item index="/user/select">查询用户</el-menu-item>
-                <el-menu-item index="/user/add">新增用户</el-menu-item>
-                <el-menu-item index="/user/edit">编辑用户</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-submenu index="3">
+            <el-submenu index="/room">
               <template slot="title">
                 <span slot="title">房间管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="3-1">选项1</el-menu-item>
-                <el-menu-item index="3-2">选项2</el-menu-item>
+                <el-menu-item index="/room/select">查询房间</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="/count">
+              <template slot="title">
+                <span slot="title">报价管理</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/count/select">查询所有</el-menu-item>
+              </el-menu-item-group>
+              <el-menu-item-group>
+                <el-menu-item index="/count/insert">数据录入</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
           </el-menu>

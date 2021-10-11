@@ -3,6 +3,8 @@ package com.mycomp.home.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mycomp.home.common.Result;
 import com.mycomp.home.entity.Room;
 import com.mycomp.home.entity.User;
@@ -23,10 +25,27 @@ public class RoomController {
     @Autowired
     private UserMapper userMapper;
 
-    @GetMapping("select")
+    @GetMapping("/select")
     public Result selectRoom() {
         List<Room> roomList = roomMapper.selectList(null);
         return Result.ok(roomList);
+
+    }
+
+    @PostMapping("/select")
+    public Result selectRoomP(@RequestBody JSONObject jsonObject) {
+        Integer page = jsonObject.getInteger("page");
+        Integer size = jsonObject.getInteger("size");
+        //分页查询
+        IPage<Room> iPage = new Page<>(page, size);
+        IPage<Room> iPage1 = roomMapper.selectPage(iPage, null);
+        return Result.ok(iPage1);
+    }
+
+    @PostMapping("/selectById")
+    public Result selectById(@RequestBody Room room){
+        Room room1 = roomMapper.selectById(room.getId());
+        return Result.ok(room1);
     }
 
     @PostMapping("/add")

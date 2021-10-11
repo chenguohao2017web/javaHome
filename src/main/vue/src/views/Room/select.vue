@@ -1,5 +1,5 @@
 <template>
-    <div class="select-page">
+    <div class="select-room-page">
         <el-form
                 :inline="true"
                 ref="form"
@@ -8,16 +8,11 @@
                 label-width="80px"
                 label-position="left"
         >
-            <el-form-item label="姓名" prop="name">
-                <el-input v-model="form.name"></el-input>
-            </el-form-item>
-            <el-form-item label="电话">
-                <el-input v-model="form.phone"></el-input>
-            </el-form-item>
             <el-form-item label="房间号" prop="roomNum">
-                <el-select v-model="form.roomId" placeholder="请选择房间号">
-                    <el-option :label="item.roomNum" :value="item.id" v-for="item of roomList"></el-option>
-                </el-select>
+                <el-input v-model="form.roomNum"></el-input>
+            </el-form-item>
+            <el-form-item label="价格" prop="price">
+                <el-input v-model="form.price"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -26,22 +21,15 @@
         <el-table
                 :data="tableData"
                 style="width: 100%"
-                >
-            <el-table-column
-                    prop="name"
-                    label="姓名">
-            </el-table-column>
-            <el-table-column
-                    prop="phone"
-                    label="电话">
-            </el-table-column>
+        >
+
             <el-table-column
                     prop="roomNum"
                     label="房间号">
             </el-table-column>
             <el-table-column
-                    prop="createdTime"
-                    label="创建时间">
+                    prop="price"
+                    label="价格">
             </el-table-column>
             <el-table-column
                     label="操作">
@@ -65,21 +53,20 @@
     export default {
         created() {
             this.getData()
-            this.getRoomList()
         },
         data() {
             return {
                 tableData: [],
                 total: 0,
-                size: 8,
+                size: 12,
                 page: 1,
                 form: {},
                 roomList:[],
                 rules: {
-                    name: [
+                    roomNum: [
                         {required: true, message: '请输入', trigger: 'blur'},
                     ],
-                    roomId :[
+                    price :[
                         {required: true, message: '请输入', trigger: 'blur'}
                     ]
                 }
@@ -87,8 +74,10 @@
         },
         methods: {
             getData() {
-                this.$apis.UserApi.select({page: this.page, size: this.size}).then(res => {
-                    this.tableData = res.data.list
+                this.$apis.RoomApi.selectPage({page: this.page, size: this.size}).then(res => {
+                    console.log(res)
+                    this.tableData = res.data.records
+                    // this.tableData = res.data.list
                     this.total = res.data.total
                 })
             },
@@ -99,7 +88,7 @@
             editUser(row) {
                 console.log(row)
                 this.$router.push({
-                    path: "/user/edit",
+                    path: "/room/edit",
                     query: {
                         id: row.id
                     }
@@ -108,7 +97,7 @@
             async delUser(row) {
                 console.log(row)
                 this.$confirm("确认删除?").then(() => {
-                    this.$apis.UserApi.del(row).then(() => {
+                    this.$apis.RoomApi.del(row).then(() => {
                         this.getData()
                     })
                 })
@@ -116,9 +105,7 @@
             onSubmit() {
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
-                        this.$apis.UserApi.add(Object.assign({},this.form, {
-                            createdTime: new Date()
-                        })).then(res => {
+                        this.$apis.RoomApi.add(this.form).then(res => {
                             this.$message({
                                 type:"success",
                                 message: "新增成功"
@@ -128,19 +115,7 @@
                         })
                     }
                 });
-            },
-            getRoomList() {
-                this.$apis.RoomApi.select().then(res => {
-                    console.log(res)
-                    this.roomList = res.data
-                })
             }
         }
     }
 </script>
-<style>
-    .select-page .el-form--inline .el-form-item {
-        margin-right: 0!important;
-        width: 50%;
-    }
-</style>
