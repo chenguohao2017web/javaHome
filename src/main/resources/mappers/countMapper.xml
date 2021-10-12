@@ -9,6 +9,9 @@
         `room` as r
         where c.user_id = u.id
         and c.room_id = r.id
+        <if test="roomId != null and roomId != ''">
+            and c.room_id = #{roomId}
+        </if>
         <if test="roomNum != null and roomNum != ''">
             and r.room_num like concat('%',#{roomNum},'%')
         </if>

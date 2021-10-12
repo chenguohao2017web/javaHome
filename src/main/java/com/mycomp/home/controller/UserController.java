@@ -1,5 +1,7 @@
 package com.mycomp.home.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mycomp.home.common.Result;
 import com.mycomp.home.entity.User;
@@ -37,6 +39,14 @@ public class UserController {
     public Result getUserById(@RequestBody User user) {
         User user1 = userMapper.selectById(user.getId());
         return Result.ok(user1);
+    }
+
+    @PostMapping("/selectUserByRoomId")
+    public Result selectUserByRoomId(@RequestBody JSONObject jsonObject) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(User::getRoomId, jsonObject.getInteger("id"));
+        User user = userMapper.selectOne(queryWrapper);
+        return Result.ok(user);
     }
 
     @PostMapping("/add")

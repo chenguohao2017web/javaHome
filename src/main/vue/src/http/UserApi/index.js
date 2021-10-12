@@ -9,6 +9,10 @@ export default {
         return request.post("/user/selectUserById", params)
     },
 
+    selectByRoomId: (params) => {
+        return request.post("/user/selectUserByRoomId", params)
+    },
+
     add: (params) => {
         return request.post("/user/add", params)
     },

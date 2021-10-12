@@ -10,9 +10,12 @@
                 </el-date-picker>
             </el-form-item>
             <el-form-item label="房间号">
-                <el-select v-model="formInline.roomNum" placeholder="选择房间号">
-                    <el-option :label="item.roomNum" :value="item.roomNum" v-for="item of roomList"></el-option>
-                </el-select>
+<!--                <el-select v-model="formInline.roomNum" placeholder="选择房间号">-->
+<!--                    <el-option :label="item.roomNum" :value="item.roomNum" v-for="item of roomList"></el-option>-->
+<!--                </el-select>-->
+                <el-input v-model="formInline.roomNum">
+
+                </el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -78,7 +81,7 @@
                 },
                 rules: {
                     date: [
-                        {required: true, message: '请输入', trigger: 'blur'},
+                        // {required: true, message: '请输入', trigger: 'blur'},
                     ]
                 },
                 tableData:[],
@@ -108,7 +111,8 @@
                 let size = this.size
                 let year = this.year
                 let month = this.month
-                this.$apis.CountApi.select({year, month, page, size}).then(res => {
+                let roomNum = this.formInline.roomNum
+                this.$apis.CountApi.select({year, month, roomNum, page, size}).then(res => {
                     this.tableData = res.data.list
                     this.total = res.data.total
                 })
