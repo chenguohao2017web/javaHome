@@ -6,7 +6,7 @@
                         v-model="date"
                         type="month"
                         value-format="yyyy-MM"
-                        placeholder="选择年月">
+                        placeholder="选择年月" @change="chooseRoom">
                 </el-date-picker>
             </el-form-item>
             <el-form-item label="房号" prop="roomId">
@@ -30,7 +30,7 @@
 
             <el-form-item>
                 <el-button type="success" @click="handlePrice" v-if="this.lastForm.water">计价</el-button>
-                <el-button type="primary" @click="onSubmit">创建</el-button>
+                <el-button type="primary" @click="onSubmit">保存</el-button>
             </el-form-item>
         </el-form>
 
@@ -89,12 +89,20 @@
             }
         },
         created() {
-
-            let now = new Date()
-            let year = now.getFullYear()
-            let month = now.getMonth() + 1
-            this.date = year + "-"+ month
             this.getRoomList()
+            let id = this.$route.query.id
+            if(id) {
+                this.getRoomList()
+                this.$apis.CountApi.selectById({id}).then(res => {
+                    this.form = res.data
+                    this.date = res.data.year + "-" + res.data.month
+                })
+            }else {
+                let now = new Date()
+                let year = now.getFullYear()
+                let month = now.getMonth() + 1
+                this.date = year + "-"+ month
+            }
         },
         computed: {
             lastDate() {
@@ -119,7 +127,6 @@
             onSubmit() {
                 this.$refs['form'].validate(v => {
                     if(v) {
-                        console.log('submit!');
                         let params = {
                             year: this.date.split("-")[0],
                             month: this.date.split("-")[1],

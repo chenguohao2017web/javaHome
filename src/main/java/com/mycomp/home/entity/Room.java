@@ -14,6 +14,7 @@ public class Room {
     @TableField("room_num")
     private String roomNum;
     private Integer price;
+    private Integer seq;
 
     public Room() {}
     public Room(String roomNum, Integer price) {

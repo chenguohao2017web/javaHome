@@ -6,6 +6,7 @@
         select u.*, r.room_num, r.price
         from user u, room r
         where u.room_id = r.id
+        order by r.seq
         limit #{page}, #{size}
     </select>
 </mapper>

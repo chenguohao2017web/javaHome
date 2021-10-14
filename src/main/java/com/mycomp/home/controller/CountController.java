@@ -40,6 +40,12 @@ public class CountController {
         return Result.ok(stringObjectHashMap);
     }
 
+    @PostMapping("/selectById")
+    public Result selectById(@RequestBody Count count) {
+        Count count1 = countMapper.selectById(count.getId());
+        return Result.ok(count1);
+    }
+
     @PostMapping("/add")
     public Result add(@RequestBody Count count) {
         countMapper.insert(count);

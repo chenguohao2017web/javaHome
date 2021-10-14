@@ -21,6 +21,7 @@
         <if test="month != null and month != ''">
             and month = #{month}
         </if>
+        order by r.seq, c.create_time desc
         limit #{page}, #{size}
     </select>
 
@@ -33,6 +34,7 @@
         <result column="user_id" property="userId" javaType="int"></result>
         <result column="room_id" property="roomId" javaType="int"></result>
         <result column="price" property="price" javaType="double"></result>
+        <result column="status" property="status" javaType="int"></result>
 
         <association property="user" javaType="com.mycomp.home.entity.User">
             <result column="name" property="name" javaType="String"></result>

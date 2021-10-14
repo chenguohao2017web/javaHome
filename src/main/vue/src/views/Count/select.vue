@@ -25,35 +25,44 @@
         <el-table
                 :data="tableData"
                 style="width: 100%"
+                :row-class-name="tableRowClassName"
         >
             <el-table-column
                     label="年月">
                 <template slot-scope="scope">
-                    <div>{{scope.row.year + "年-" + scope.row.month}}月</div>
+                    <div>{{scope.row.year + "-" + scope.row.month}}</div>
                 </template>
             </el-table-column>
             <el-table-column
-                    prop="room.roomNum"
+                    prop="roomNumCn"
                     label="房间号">
             </el-table-column>
             <el-table-column
                     prop="water"
-                    label="水">
+                    label="水(吨)">
             </el-table-column>
             <el-table-column
                     prop="dian"
-                    label="电">
+                    label="电(度)">
             </el-table-column>
             <el-table-column
                     prop="price"
-                    label="计价">
+                    label="计价(元)">
             </el-table-column>
+            <el-table-column
+                    label="交租状态">
+                <template slot-scope="scope">
+                    <span>{{scope.row.status === 0 ? '否' : '是'}}</span>
+                </template>
+            </el-table-column>
+
 
             <el-table-column
                     label="操作">
                 <template slot-scope="scope">
-                    <el-button @click="editUser(scope.row)" type="text" size="small">编辑</el-button>
-                    <el-button type="text" size="small" @click="delUser(scope.row)">删除</el-button>
+                    <el-button v-if="scope.row.status === 0" @click="changeStatus(scope.row)" type="success" size="mini">交租</el-button>
+                    <el-button @click="editCount(scope.row)" type="default" size="mini">编辑</el-button>
+                    <el-button @click="delCount(scope.row)" type="danger" size="mini" >删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -91,9 +100,19 @@
         created() {
             this.$apis.RoomApi.select().then(res=> {
                 this.roomList = res.data
+
+                this.onSubmit()
             })
+
+
         },
         methods: {
+            tableRowClassName({row}) {
+                if (row.status === 1) {
+                    return 'success-row';
+                }
+                return '';
+            },
             onSubmit() {
                 this.$refs['form'].validate( v => {
                     if(v) {
@@ -115,13 +134,61 @@
                 this.$apis.CountApi.select({year, month, roomNum, page, size}).then(res => {
                     this.tableData = res.data.list
                     this.total = res.data.total
+                    this.tableData.forEach(item => {
+                        let roomNum = item.room.roomNum
+                        let sp = roomNum.split("-")[0]
+                        if(sp === "N") {
+                            item.roomNumCn = "南街-" + roomNum.split("-")[1]
+                        } else {
+                            item.roomNumCn = "中街-" + roomNum.split("-")[1]
+                        }
+
+                    })
                 })
             },
             handlePageChange(page) {
                 this.pagee = page
                 this.selectCount()
+            },
+            delCount(row) {
+                this.$confirm("确认删除？").then(() => {
+                    this.$apis.CountApi.del({id: row.id}).then(() => {
+                        this.$message({
+                            type: "success",
+                            message: "操作成功"
+                        })
+
+                        this.selectCount()
+                    })
+                })
+            },
+            editCount(row) {
+                this.$router.push({
+                    path: "/count/insert",
+                    query: {
+                        id: row.id
+                    }
+                })
+            },
+            changeStatus(row) {
+                this.$confirm("确认收款：" + row.price + "?").then(() => {
+                    this.$apis.CountApi.update({
+                        id: row.id,
+                        status: 1
+                    }).then(res => {
+                        this.$message({
+                            type: "success",
+                            message: "操作成功"
+                        })
+                        this.selectCount()
+                    })
+                })
             }
         }
     }
 </script>
-<style lang="less" scoped></style>
+<style>
+    .el-table .success-row {
+        background: #ffeb3b;
+    }
+</style>

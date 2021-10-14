@@ -2,6 +2,7 @@ package com.mycomp.home.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -38,7 +39,9 @@ public class RoomController {
         Integer size = jsonObject.getInteger("size");
         //分页查询
         IPage<Room> iPage = new Page<>(page, size);
-        IPage<Room> iPage1 = roomMapper.selectPage(iPage, null);
+        QueryWrapper<Room> roomQueryWrapper = new QueryWrapper<>();
+        roomQueryWrapper.orderByAsc("seq");
+        IPage<Room> iPage1 = roomMapper.selectPage(iPage, roomQueryWrapper);
         return Result.ok(iPage1);
     }
 
