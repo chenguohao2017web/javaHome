@@ -19,5 +19,5 @@ public class User {
     private Integer roomId;
     @TableField(fill= FieldFill.INSERT_UPDATE)
     @JsonFormat(pattern="yyyy-MM-dd")
-    private Date createdTime;
+    private Date createTime;
 }

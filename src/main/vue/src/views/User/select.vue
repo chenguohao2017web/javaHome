@@ -40,7 +40,7 @@
                     label="房间号">
             </el-table-column>
             <el-table-column
-                    prop="createdTime"
+                    prop="createTime"
                     label="创建时间">
             </el-table-column>
             <el-table-column

@@ -58,6 +58,7 @@
 
 
             <el-table-column
+                    width="250px"
                     label="操作">
                 <template slot-scope="scope">
                     <el-button v-if="scope.row.status === 0" @click="changeStatus(scope.row)" type="success" size="mini">交租</el-button>
