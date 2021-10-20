@@ -36,6 +36,9 @@
                 <el-menu-item index="/count/select">查询所有</el-menu-item>
               </el-menu-item-group>
               <el-menu-item-group>
+                <el-menu-item index="/count/view">视图速看</el-menu-item>
+              </el-menu-item-group>
+              <el-menu-item-group>
                 <el-menu-item index="/count/insert">数据录入</el-menu-item>
               </el-menu-item-group>
             </el-submenu>

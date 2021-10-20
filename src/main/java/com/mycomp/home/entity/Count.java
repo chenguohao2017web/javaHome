@@ -36,5 +36,7 @@ public class Count {
     private User user;
     @TableField(exist = false)
     private Room room;
+    @TableField(exist = false)
+    private Count lastMonthData;
 
 }

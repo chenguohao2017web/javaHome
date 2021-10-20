@@ -1,6 +1,17 @@
 import axios from "axios"
+const baseUrl = "/api"
+import { Loading } from 'element-ui';
+let loadingInstance = null
 
-const baseUrl = "http://127.0.0.1:8080"
+axios.interceptors.request.use((config) => {
+    loadingInstance = Loading.service({});
+    return config
+})
+
+axios.interceptors.response.use((response) => {
+    loadingInstance.close()
+    return response
+})
 
 export default {
     post: (url, params) => {

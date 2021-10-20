@@ -18,6 +18,7 @@
                 </el-input>
             </el-form-item>
             <el-form-item>
+
                 <el-button type="primary" @click="onSubmit">查询</el-button>
             </el-form-item>
         </el-form>
@@ -34,7 +35,7 @@
                 </template>
             </el-table-column>
             <el-table-column
-                    prop="roomNumCn"
+                    prop="room.roomNum"
                     label="房间号">
             </el-table-column>
             <el-table-column
@@ -44,6 +45,18 @@
             <el-table-column
                     prop="dian"
                     label="电(度)">
+            </el-table-column>
+            <el-table-column
+                    prop="lastMonthData.water"
+                    label="上个月水(吨)">
+            </el-table-column>
+            <el-table-column
+                    prop="lastMonthData.dian"
+                    label="上个月电(度)">
+            </el-table-column>
+            <el-table-column
+                    prop="roomPrice"
+                    label="房租">
             </el-table-column>
             <el-table-column
                     prop="price"
@@ -85,8 +98,6 @@
                 size: 12,
                 roomList: [],
                 formInline: {
-                    user: '',
-                    region: '',
                     date: ''
                 },
                 rules: {
@@ -101,13 +112,15 @@
         created() {
             this.$apis.RoomApi.select().then(res=> {
                 this.roomList = res.data
-
-                this.onSubmit()
+                // this.onSubmit()
             })
-
-
         },
         methods: {
+            clearForm() {
+                this.formInline = {}
+                this.year = ''
+                this.month = ''
+            },
             tableRowClassName({row}) {
                 if (row.status === 1) {
                     return 'success-row';
@@ -117,11 +130,14 @@
             onSubmit() {
                 this.$refs['form'].validate( v => {
                     if(v) {
-                        let date = this.formInline.date
-                        let year = date.split("-")[0]
-                        let month = date.split("-")[1]
-                        this.year = year
-                        this.month = month
+                        if(this.formInline.date) {
+                            let date = this.formInline.date
+                            let year = date.split("-")[0]
+                            let month = date.split("-")[1]
+                            this.year = year
+                            this.month = month
+                        }
+
                         this.selectCount()
                     }
                 })
@@ -135,15 +151,13 @@
                 this.$apis.CountApi.select({year, month, roomNum, page, size}).then(res => {
                     this.tableData = res.data.list
                     this.total = res.data.total
-                    this.tableData.forEach(item => {
-                        let roomNum = item.room.roomNum
-                        let sp = roomNum.split("-")[0]
-                        if(sp === "N") {
-                            item.roomNumCn = "南街-" + roomNum.split("-")[1]
-                        } else {
-                            item.roomNumCn = "中街-" + roomNum.split("-")[1]
-                        }
 
+                    this.tableData.forEach(item => {
+                        this.roomList.forEach(roomItem => {
+                            if(item.roomId === roomItem.id) {
+                                item.roomPrice = roomItem.price
+                            }
+                        })
                     })
                 })
             },

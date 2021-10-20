@@ -15,7 +15,7 @@
                 <el-input v-model="form.phone"></el-input>
             </el-form-item>
             <el-form-item label="房间号" prop="roomNum">
-                <el-select v-model="form.roomId" placeholder="请选择房间号">
+                <el-select v-model="form.roomId" placeholder="请选择房间号" @change="handleRoomChange">
                     <el-option :label="item.roomNum" :value="item.id" v-for="item of roomList"></el-option>
                 </el-select>
             </el-form-item>
@@ -97,7 +97,6 @@
                 this.getData()
             },
             editUser(row) {
-                console.log(row)
                 this.$router.push({
                     path: "/user/edit",
                     query: {
@@ -106,7 +105,6 @@
                 })
             },
             async delUser(row) {
-                console.log(row)
                 this.$confirm("确认删除?").then(() => {
                     this.$apis.UserApi.del(row).then(() => {
                         this.getData()
@@ -131,9 +129,18 @@
             },
             getRoomList() {
                 this.$apis.RoomApi.select().then(res => {
-                    console.log(res)
                     this.roomList = res.data
                 })
+            },
+            handleRoomChange() {
+                if(this.form.name === '' || !this.form.name) {
+                    this.roomList.forEach(item => {
+                        if(item.id === this.form.roomId) {
+                            this.form.name = item.roomNum
+                        }
+                    })
+                }
+
             }
         }
     }

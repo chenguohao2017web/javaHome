@@ -14,6 +14,10 @@ const routes = [
     component: Home
   },
   {
+    path: "/home",
+    component: Home
+  },
+  {
     path: '/user/select',
     component: () => import(/* webpackChunkName: "about" */ '../views/User/select')
   },
@@ -36,7 +40,12 @@ const routes = [
   {
     path: "/count/insert",
     component: () => import(/* webpackChunkName: "about" */ '../views/Count/insert')
+  },
+  {
+    path: "/count/view",
+    component: () => import(/* webpackChunkName: "about" */ '../views/Count/view')
   }
+
 
 ]
 

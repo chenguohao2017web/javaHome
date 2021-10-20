@@ -35,6 +35,42 @@ public class CountController {
         List<Count> countListWithUserAndRoom1 = countMapper.getCountListWithUserAndRoom(map);
         int total = countListWithUserAndRoom1.size();
         HashMap<String, Object> stringObjectHashMap = new HashMap<>();
+
+        //根据当前年月房间号查询上个月数据
+//        Integer year = Integer.parseInt(map.get("year").toString());
+//        Integer month = Integer.parseInt(map.get("month").toString());
+//        if(month == 1) {
+//            month = 12;
+//            year -= 1;
+//        } else {
+//            month -= 1;
+//        }
+//        map.put("year", year);
+//        map.put("month", month);
+        for(Count count : countListWithUserAndRoom) {
+            //根据当前年月房间号查询上个月数据
+//            for(Count selectCount: lastMonthCountListWithUserAndRoom) {
+//                if(count.getRoomId() == selectCount.getRoomId()) {
+//                    count.setLastMonthData(selectCount);
+//                }
+//            }
+
+            Integer year = count.getYear();
+            Integer month = count.getMonth();
+            if(month == 1) {
+                month = 12;
+                year -= 1;
+            } else {
+                month -= 1;
+            }
+            map.put("year", year);
+            map.put("month", month);
+            List<Count> lastMonthCountListWithUserAndRoom = countMapper.getCountListWithUserAndRoom(map);
+            if(lastMonthCountListWithUserAndRoom.size() > 0) {
+                count.setLastMonthData(lastMonthCountListWithUserAndRoom.get(0));
+            }
+
+        }
         stringObjectHashMap.put("list", countListWithUserAndRoom);
         stringObjectHashMap.put("total", total);
         return Result.ok(stringObjectHashMap);

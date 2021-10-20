@@ -1,9 +1,11 @@
 server:
   port: 8080
+  servlet:
+    context-path: /api
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/home?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&serverTimezone=GMT%2B8
+    url: jdbc:mysql://127.0.0.1:3306/home?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&serverTimezone=GMT%2B8
     username: root
     password: Chen123!
 
@@ -35,9 +37,9 @@ logging:
 #  `seq` int(11) DEFAULT NULL COMMENT '排序',
 #  PRIMARY KEY (`id`)
 #  ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
-
 #
+#
+##
 #  CREATE TABLE `user` (
 #  `id` int(11) NOT NULL AUTO_INCREMENT,
 #  `name` varchar(15) NOT NULL,
