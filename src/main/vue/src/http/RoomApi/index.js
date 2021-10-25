@@ -18,5 +18,9 @@ export default {
 
     del: (params) => {
         return request.post("/room/del", params)
+    },
+
+    update: (params) => {
+        return request.post("/room/update", params)
     }
 }

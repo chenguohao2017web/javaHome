@@ -117,12 +117,20 @@
                         this.$apis.UserApi.add(Object.assign({},this.form, {
                             createdTime: new Date()
                         })).then(res => {
-                            this.$message({
-                                type:"success",
-                                message: "新增成功"
-                            })
-                            this.getData()
-                            this.form = {}
+                            if(res.code === 200) {
+                                this.$message({
+                                    type:"success",
+                                    message: "操作成功"
+                                })
+                                this.getData()
+                                this.form = {}
+                            } else {
+                                this.$message({
+                                    type:"error",
+                                    message: res.msg
+                                })
+                            }
+
                         })
                     }
                 });

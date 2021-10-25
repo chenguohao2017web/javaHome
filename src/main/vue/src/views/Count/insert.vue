@@ -72,7 +72,11 @@
             return {
                 showLastData: false,
                 date: null,
-                form: {},
+                form: {
+                    water: null,
+                    dian: null,
+                    price: null
+                },
                 roomList: [],
                 rules: {
                     roomId: [
@@ -152,7 +156,11 @@
                                             type: "success",
                                             message: "操作成功"
                                         })
-                                        this.form = {}
+                                        this.form = {
+                                            water: null,
+                                            dian: null,
+                                            price: null
+                                        }
                                     })
                                 })
                             } else {
@@ -175,7 +183,11 @@
                                                 type: "success",
                                                 message: "操作成功"
                                             })
-                                            this.form = {}
+                                            this.form = {
+                                                water: null,
+                                                dian: null,
+                                                price: null
+                                            }
                                         })
                                     }
 
@@ -231,6 +243,29 @@
                     } else {
                         this.showLastData = false
                         this.lastForm = {}
+                    }
+                })
+
+                //回填当月数据
+                if(!this.form.roomId) return
+                let currentParams = {
+                    year: this.date.split("-")[0],
+                    month: this.date.split("-")[1],
+                    roomId: this.form.roomId,
+                    price: this.form.price,
+                    page: 1,
+                    size: 999
+                }
+                this.$apis.CountApi.select(currentParams).then(res => {
+                    if(res.data.list && res.data.list.length > 0) {
+                        let item = res.data.list[0]
+                        this.form.dian = item.dian
+                        this.form.water = item .water
+                        this.form.price = item.price
+                    } else {
+                        this.form.water = null
+                        this.form.dian = null
+                        this.form.price = null
                     }
                 })
             }

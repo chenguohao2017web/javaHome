@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mycomp.home.common.Result;
+import com.mycomp.home.entity.Room;
 import com.mycomp.home.entity.User;
 import com.mycomp.home.entity.UserInfo;
+import com.mycomp.home.mapper.RoomMapper;
 import com.mycomp.home.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,9 @@ public class UserController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private RoomMapper roomMapper;
 
     @GetMapping("/select")
     public Result getUsersAll(@RequestParam("size") Integer pageSize, @RequestParam("page") Integer page) {
@@ -51,6 +56,11 @@ public class UserController {
 
     @PostMapping("/add")
     public Result addUser(@RequestBody User user) {
+        //校验房间号是否存在
+        Room room = roomMapper.selectById(user.getRoomId());
+        if(room != null) {
+            return Result.fail("房间号已存在");
+        }
         userMapper.insert(user);
         return Result.ok();
     }

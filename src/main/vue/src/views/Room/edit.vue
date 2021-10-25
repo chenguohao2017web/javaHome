@@ -38,7 +38,7 @@
                 })
             },
             edit() {
-                this.$apis.UserApi.update(this.form).then(res => {
+                this.$apis.RoomApi.update(this.form).then(res => {
                     this.$message({
                         type: "success",
                         message: "操作成功"
