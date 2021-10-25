@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import Login from "../views/Login/login"
 
 Vue.use(ElementUI);
 Vue.use(VueRouter)
@@ -10,12 +10,15 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    redirect: "/login"
+  },
+  {
+    path: "/login",
+    component: Login
   },
   {
     path: "/home",
-    component: Home
+    component: () => import(/* webpackChunkName: "about" */ '../views/Home')
   },
   {
     path: '/user/select',

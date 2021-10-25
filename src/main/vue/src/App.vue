@@ -9,6 +9,9 @@
       <el-container>
         <el-aside :width="currentAsideWidth">
           <el-menu default-active="/home" class="el-menu-vertical-demo" :collapse="isCollapse" @select="select" :unique-opened="true">
+            <el-menu-item index="/login">
+              <span slot="title">登录</span>
+            </el-menu-item>
             <el-menu-item index="/home">
               <span slot="title">首页</span>
             </el-menu-item>
