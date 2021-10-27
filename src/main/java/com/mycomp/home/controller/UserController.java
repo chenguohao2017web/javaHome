@@ -56,10 +56,11 @@ public class UserController {
 
     @PostMapping("/add")
     public Result addUser(@RequestBody User user) {
-        //校验房间号是否存在
-        Room room = roomMapper.selectById(user.getRoomId());
-        if(room != null) {
-            return Result.fail("房间号已存在");
+        //校验房间号是否已被用户使用
+        User hasRoomIdInUserTable = userMapper.selectOne(new QueryWrapper<User>().lambda().eq(User::getRoomId, user.getRoomId()));
+
+        if(hasRoomIdInUserTable != null) {
+            return Result.fail("用户表已存在改房间号");
         }
         userMapper.insert(user);
         return Result.ok();

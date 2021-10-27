@@ -27,7 +27,7 @@
                         this.$store.commit("setToken", res.data)
                         this.$router.push("/home")
                     } else {
-                        this.$store.commit("setToken", null)
+                        this.$store.commit("setToken", "")
                         this.$message({
                             type: "error",
                             message: res.msg
@@ -38,7 +38,3 @@
         }
     }
 </script>
-<style>
-    .login-page {
-    }
-</style>

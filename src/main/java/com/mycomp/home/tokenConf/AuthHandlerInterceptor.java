@@ -17,7 +17,7 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
     @Autowired
     private TokenUtil tokenUtil;
 
-    private Long offTime = 1000 * 60 * 60 * 24L; //过期时间 24小时过期
+    private long offTime = 1000 * 60 * 60 * 24; //过期时间 24小时过期
     
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

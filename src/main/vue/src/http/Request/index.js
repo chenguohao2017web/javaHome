@@ -18,9 +18,16 @@ axios.interceptors.response.use((response) => {
         Message.error("token失效")
         return false
     }
-    return response
-},() => {
+
+    if(response.data.code === 200) {
+        return Promise.resolve(response)
+    } else {
+        Message.error(response.data.msg)
+    }
+    return Promise.reject(response)
+},(e) => {
     loadingInstance.close()
+    return Promise.reject(e)
 })
 
 export default {

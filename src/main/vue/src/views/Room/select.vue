@@ -15,7 +15,8 @@
                 <el-input v-model="form.price"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit">立即创建</el-button>
+                <el-button type="primary" @click="onSubmit" size="mini">创建</el-button>
+                <el-button type="primary" @click="onSaveAndUser" size="mini">创建并新建用户</el-button>
             </el-form-item>
         </el-form>
         <el-table
@@ -75,9 +76,7 @@
         methods: {
             getData() {
                 this.$apis.RoomApi.selectPage({page: this.page, size: this.size}).then(res => {
-                    console.log(res)
                     this.tableData = res.data.records
-                    // this.tableData = res.data.list
                     this.total = res.data.total
                 })
             },
@@ -86,7 +85,6 @@
                 this.getData()
             },
             editUser(row) {
-                console.log(row)
                 this.$router.push({
                     path: "/room/edit",
                     query: {
@@ -95,7 +93,6 @@
                 })
             },
             async delUser(row) {
-                console.log(row)
                 this.$confirm("确认删除?").then(() => {
                     this.$apis.RoomApi.del(row).then(() => {
                         this.getData()
@@ -115,6 +112,30 @@
                         })
                     }
                 });
+            },
+            onSaveAndUser() {
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        this.$apis.RoomApi.add(this.form).then(res => {
+
+                            //根据插入成功的roomId新增用户
+                            let roomId = res.data
+                            this.$apis.UserApi.add({
+                                name: this.form.roomNum,
+                                roomId
+                            }).then(() => {
+                                this.$message({
+                                    type: "success",
+                                    message: "新增关联成功"
+                                })
+                                this.getData()
+                                this.form = {}
+                            })
+
+
+                        })
+                    }
+                })
             }
         }
     }

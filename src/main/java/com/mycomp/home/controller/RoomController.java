@@ -11,11 +11,13 @@ import com.mycomp.home.entity.Room;
 import com.mycomp.home.entity.User;
 import com.mycomp.home.mapper.RoomMapper;
 import com.mycomp.home.mapper.UserMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/room")
 public class RoomController {
@@ -55,9 +57,17 @@ public class RoomController {
     public Result add(@RequestBody JSONObject jsonObject) {
 
         String roomNum = jsonObject.getString("roomNum");
+
+        //根据房间号查询房间
+        Room room = roomMapper.selectOne(new QueryWrapper<Room>().lambda().eq(Room::getRoomNum, roomNum));
+        if(room != null) {
+            return Result.fail("房间号已存在");
+        }
+
         Integer price = jsonObject.getInteger("price");
-        roomMapper.insert(new Room(roomNum, price));
-        return Result.ok();
+        Room newRoom = new Room(roomNum, price);
+        roomMapper.insert(newRoom);
+        return Result.ok(newRoom.getId());
     }
 
     @PostMapping("/del")
