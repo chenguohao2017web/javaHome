@@ -65,6 +65,7 @@ public class CountController {
             }
             map.put("year", year);
             map.put("month", month);
+            map.put("roomId", count.getRoomId());
             List<Count> lastMonthCountListWithUserAndRoom = countMapper.getCountListWithUserAndRoom(map);
             if(lastMonthCountListWithUserAndRoom.size() > 0) {
                 count.setLastMonthData(lastMonthCountListWithUserAndRoom.get(0));

@@ -21,27 +21,27 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
     
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info("========进入拦截器=========");
-        if(!(handler instanceof HandlerMethod)) return true;
-
-        String token = request.getHeader("token");
-        if("null".equals(token) || null == token || "".equals(token.trim())) {
-            throw new TokenAuthExpiredException();
-        }
-        
-        log.info("====token:{}", token);
-
-
-        Map<String, String> map = tokenUtil.parseToken(token);
-        String userName = map.get("userName");
-        String timestamp = map.get("timestamp");
-        System.currentTimeMillis();
-        long timeOfUse = System.currentTimeMillis() - Long.parseLong(timestamp);
-        if(timeOfUse > offTime) {
-            throw new TokenAuthExpiredException();
-        }
-
-        log.info("token正常");
+//        log.info("========进入拦截器=========");
+//        if(!(handler instanceof HandlerMethod)) return true;
+//
+//        String token = request.getHeader("token");
+//        if("null".equals(token) || null == token || "".equals(token.trim())) {
+//            throw new TokenAuthExpiredException();
+//        }
+//
+//        log.info("====token:{}", token);
+//
+//
+//        Map<String, String> map = tokenUtil.parseToken(token);
+//        String userName = map.get("userName");
+//        String timestamp = map.get("timestamp");
+//        System.currentTimeMillis();
+//        long timeOfUse = System.currentTimeMillis() - Long.parseLong(timestamp);
+//        if(timeOfUse > offTime) {
+//            throw new TokenAuthExpiredException();
+//        }
+//
+//        log.info("token正常");
         return true;
     }
 }

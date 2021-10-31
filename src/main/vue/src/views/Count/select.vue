@@ -162,7 +162,7 @@
                 })
             },
             handlePageChange(page) {
-                this.pagee = page
+                this.page = page
                 this.selectCount()
             },
             delCount(row) {
