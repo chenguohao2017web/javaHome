@@ -74,7 +74,9 @@ public class RoomController {
     public Result del(@RequestBody JSONObject jsonObject) {
         Integer id = jsonObject.getInteger("id");
         // 判断该房间是否绑定用户，如果是，不允许删除
-        User user = userMapper.selectById(id);
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(User::getRoomId, id);
+        User user = userMapper.selectOne(queryWrapper);
         if(user != null) {
             return Result.fail("请先移除用户");
         }
