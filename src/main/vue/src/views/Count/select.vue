@@ -71,7 +71,7 @@
 
 
             <el-table-column
-                    width="250px"
+                    width="300px"
                     label="操作">
                 <template slot-scope="scope">
                     <el-button v-if="scope.row.status === 0" @click="changeStatus(scope.row)" type="success" size="mini">交租</el-button>
@@ -92,7 +92,7 @@
 
         <el-dialog :visible.sync="printDialog">
             <div class="printFrom" id="printRef" style="padding: 10px;">
-                <div class="title" style="font-size: 24px; width: 150px;border-bottom: 1px solid #333;margin: 0 auto;padding:2px 0;text-align: center">收据单</div>
+                <div class="title" style="font-size: 24px; width: 200px;border-bottom: 1px solid #333;margin: 0 auto;padding:2px 0;text-align: center">{{printForm.date}}收据单</div>
                 <div style="display: flex;">
                     <div class="row" style="margin-top: 20px;display: flex;align-items: center;flex:1;">
                         <div class="label" style="font-size:18px; margin-right: 20px;">房号:</div>
@@ -234,6 +234,7 @@
                 this.printForm.lastWater = row.lastMonthData.water
                 this.printForm.lastDian = row.lastMonthData.dian
                 this.printForm.roomPrice = row.roomPrice
+                this.printForm.date = row.year + "-" + row.month
             },
             printSubmit() {
                 //打印
