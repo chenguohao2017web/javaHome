@@ -14,39 +14,48 @@ const routes = [
   },
   {
     path: "/login",
-    component: Login
+    component: Login,
+    name: 'login'
   },
   {
     path: "/home",
-    component: () => import(/* webpackChunkName: "about" */ '../views/Home')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Home'),
+    name: 'home'
   },
   {
     path: '/user/select',
-    component: () => import(/* webpackChunkName: "about" */ '../views/User/select')
+    component: () => import(/* webpackChunkName: "about" */ '../views/User/select'),
+    name: 'userSelect'
   },
   {
     path: '/user/edit',
-    component: () => import(/* webpackChunkName: "about" */ '../views/User/edit')
+    component: () => import(/* webpackChunkName: "about" */ '../views/User/edit'),
+    name: 'userEdit'
   },
   {
     path: '/room/select',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Room/select')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Room/select'),
+    name: 'roomSelect'
   },
   {
     path: '/room/edit',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Room/edit')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Room/edit'),
+    name: 'roomEdit'
   },
   {
     path: '/count/select',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Count/select')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Count/select'),
+    name: 'countSelect'
   },
   {
     path: "/count/insert",
-    component: () => import(/* webpackChunkName: "about" */ '../views/Count/insert')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Count/insert'),
+    name: 'countInsert'
   },
   {
     path: "/count/view",
-    component: () => import(/* webpackChunkName: "about" */ '../views/Count/view')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Count/view'),
+    name: 'countView'
   }
 
 
@@ -57,5 +66,16 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+// const originalPush = VueRouter.prototype.push
+// const originalReplace = VueRouter.prototype.replace
+//
+// VueRouter.prototype.push = function push(location,onResolve, onReject) {
+//   if(onReject || onReject) {
+//     return originalPush.call(this, location, onResolve, onReject)
+//     return originalPush.call(this, location).catch(err => err)
+//   }
+// }
+
 
 export default router

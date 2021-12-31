@@ -8,7 +8,15 @@
       </el-header>
       <el-container>
         <el-aside :width="currentAsideWidth">
-          <el-menu default-active="/login" class="el-menu-vertical-demo" :collapse="isCollapse" @select="select" :unique-opened="true">
+          <el-menu
+                  :default-active="activeIndex"
+                  class="el-menu-vertical-demo"
+                  :collapse="isCollapse"
+                  @select="select"
+                  :unique-opened="true"
+                  :router="true"
+
+          >
             <el-menu-item index="/login">
               <span slot="title">登录</span>
             </el-menu-item>
@@ -62,6 +70,31 @@
       return {
         isCollapse: false,
         currentAsideWidth: "200px"
+      }
+    },
+    computed: {
+      activeIndex() {
+        const {name} = this.$route
+        switch (name) {
+          case 'login':
+            return '/login';
+          case 'home':
+            return '/home';
+          case 'userSelect':
+            return '/user/select'
+          case 'userEdit':
+            return '/user/edit';
+          case 'roomSelect':
+            return '/room/select';
+          case 'roomEdit':
+            return '/room/edit';
+          case 'countSelect':
+            return '/count/select';
+          case 'countInsert':
+            return '/count/insert';
+          case 'countView':
+            return '/count/view'
+        }
       }
     },
     methods: {

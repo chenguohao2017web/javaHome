@@ -1,7 +1,6 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    welcome come to 广东湿！
+    <div>hello ...</div>
   </div>
 </template>
 
@@ -17,5 +16,10 @@ export default {}
     img {
       width: 200px;
     }
+  }
+
+  .video {
+    width: 100%;
+    height: auto;
   }
 </style>

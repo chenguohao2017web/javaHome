@@ -7,7 +7,9 @@ let loadingInstance = null
 
 axios.interceptors.request.use((config) => {
     loadingInstance = Loading.service({});
-    config.headers.token = store.state.token
+    let token = store.state.token
+    token = localStorage.getItem('token')
+    config.headers.token = token
     return config
 })
 

@@ -24,10 +24,11 @@
             onSubmit() {
                 this.$apis.LoginApi.login(this.form).then(res => {
                     if(res.code === 200) {
-                        this.$store.commit("setToken", res.data)
+                        // this.$store.commit("setToken", res.data)
+                        localStorage.setItem("token", res.data)
                         this.$router.push("/home")
                     } else {
-                        this.$store.commit("setToken", "")
+
                         this.$message({
                             type: "error",
                             message: res.msg
