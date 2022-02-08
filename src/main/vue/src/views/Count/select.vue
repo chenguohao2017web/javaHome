@@ -126,7 +126,7 @@
                     </tbody>
                 </table>
                 <div style="font-size: 18px;">注意：每月加收2吨2度共计：11元</div>
-                <div style="font-size: 30px;text-align: right;margin-top: 20px;">需缴：{{printForm.price}}元</div>
+                <div style="font-size: 30px;text-align: left;margin-top: 20px;">需缴：{{printForm.price}}元</div>
             </div>
 
             <span slot="footer" class="dialog-footer">
@@ -234,14 +234,37 @@
                 this.printForm.lastWater = row.lastMonthData.water
                 this.printForm.lastDian = row.lastMonthData.dian
                 this.printForm.roomPrice = row.roomPrice
-                this.printForm.date = row.year + "-" + row.month
+                // this.printForm.date = row.year + "-" + row.month
+                let month = row.month
+                let year = row.year
+                if(month == 12) {
+                    month = '01'
+                    year += '1'
+                } else {
+                    month += 1
+                }
+                this.printForm.date = year + "-" + month
+                this.myCurrentRow = row
             },
             printSubmit() {
                 //打印
                 print({
                     printable: 'printRef',
                     type: 'html',
-                    scanStyles: false
+                    scanStyles: false,
+                    onPrintDialogClose: () => {
+                        console.log("打印已完成")
+                        // this.$apis.CountApi.update({
+                        //     id: this.myCurrentRow.id,
+                        //     status: 1
+                        // }).then(res => {
+                        //     this.$message({
+                        //         type: "success",
+                        //         message: "操作成功"
+                        //     })
+                        //     this.selectCount()
+                        // })
+                    }
                 })
 
                 this.printDialog = false
