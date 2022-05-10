@@ -1,0 +1,38 @@
+-- home.count definition
+
+CREATE TABLE `count` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `year` int(15) NOT NULL,
+  `month` int(15) NOT NULL,
+  `water` int(20) NOT NULL,
+  `dian` int(20) NOT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `user_id` int(10) NOT NULL,
+  `room_id` int(10) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT NULL COMMENT '是否已缴纳 0:false, 1:true',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=322 DEFAULT CHARSET=utf8;
+
+
+-- home.room definition
+
+CREATE TABLE `room` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `room_num` varchar(15) NOT NULL,
+  `price` int(15) DEFAULT NULL,
+  `seq` int(11) DEFAULT NULL COMMENT '排序',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+
+
+-- home.`user` definition
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(15) NOT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `room_id` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;

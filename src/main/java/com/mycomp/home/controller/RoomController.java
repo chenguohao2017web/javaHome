@@ -30,7 +30,9 @@ public class RoomController {
 
     @GetMapping("/select")
     public Result selectRoom() {
-        List<Room> roomList = roomMapper.selectList(null);
+        QueryWrapper<Room> roomQueryWrapper = new QueryWrapper<>();
+        roomQueryWrapper.orderByAsc("seq");
+        List<Room> roomList = roomMapper.selectList(roomQueryWrapper);
         return Result.ok(roomList);
 
     }

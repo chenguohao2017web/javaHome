@@ -278,17 +278,15 @@
                 })
             },
             changeStatus(row) {
-                this.$confirm("确认收款：" + row.price + "?").then(() => {
-                    this.$apis.CountApi.update({
-                        id: row.id,
-                        status: 1
-                    }).then(res => {
-                        this.$message({
-                            type: "success",
-                            message: "操作成功"
-                        })
-                        this.selectCount()
+                this.$apis.CountApi.update({
+                    id: row.id,
+                    status: 1
+                }).then(res => {
+                    this.$message({
+                        type: "success",
+                        message: "操作成功"
                     })
+                    this.selectCount()
                 })
             }
         }
