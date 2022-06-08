@@ -1,4 +1,8 @@
 <template>
+    <div>
+        <div class="roomLIst">
+            <div :class="['roomItem',{'active': form.roomId == item.id}]" v-for="item of roomList" @click="hc(item.id)">{{item.roomNum}}</div>
+        </div>
     <div class="count-inert-page" style="display: flex; ">
         <el-form ref="form" :rules="rules" :model="form" label-width="80px" style="max-width: 300px">
             <el-form-item label="选择年月">
@@ -9,11 +13,11 @@
                         placeholder="选择年月" @change="chooseRoom">
                 </el-date-picker>
             </el-form-item>
-            <el-form-item label="房号" prop="roomId">
-                <el-select v-model="form.roomId" placeholder="选择房号" @change="chooseRoom">
-                    <el-option :label="item.roomNum" :value="item.id" v-for="item of roomList"></el-option>
-                </el-select>
-            </el-form-item>
+<!--            <el-form-item label="房号" prop="roomId">-->
+<!--                <el-select v-model="form.roomId" placeholder="选择房号" @change="chooseRoom">-->
+<!--                    <el-option :label="item.roomNum" :value="item.id" v-for="item of roomList"></el-option>-->
+<!--                </el-select>-->
+<!--            </el-form-item>-->
 
             <el-form-item label="水" prop="water">
                 <el-input v-model="form.water"></el-input>
@@ -65,6 +69,7 @@
             </el-form-item>
         </el-form>
     </div>
+    </div>
 </template>
 <script>
     export default {
@@ -77,6 +82,7 @@
                     dian: null,
                     price: null
                 },
+                currentRoomId: null,
                 roomList: [],
                 rules: {
                     roomId: [
@@ -123,6 +129,10 @@
             }
         },
         methods: {
+            hc(id) {
+                this.form.roomId = id
+                this.chooseRoom()
+            },
             getRoomList() {
                 this.$apis.RoomApi.select().then( res => {
                     this.roomList = res.data
@@ -159,7 +169,8 @@
                                         this.form = {
                                             water: null,
                                             dian: null,
-                                            price: null
+                                            price: null,
+                                            roomId: this.form.roomId
                                         }
                                     })
                                 })
@@ -186,7 +197,8 @@
                                             this.form = {
                                                 water: null,
                                                 dian: null,
-                                                price: null
+                                                price: null,
+                                                roomId: this.form.roomId
                                             }
                                         })
                                     }
@@ -278,5 +290,23 @@
         color: #fff;
         cursor: pointer;
     }
+
+
 </style>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+    .roomLIst {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+        .roomItem {
+            padding: 5px 10px;
+            font-size:12px;
+            cursor: pointer;
+            border-radius: 3px;
+            &.active {
+                background: #66b1ff;
+                color: #fff;
+            }
+        }
+    }
+</style>
